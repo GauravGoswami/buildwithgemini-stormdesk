@@ -36,6 +36,7 @@ from app.tools.claims import (
     get_policy,
     list_claims,
     record_decision,
+    triage_queue,
 )
 from app.tools.notice import generate_claim_notice
 from app.tools.payout import calculate_payout
@@ -129,14 +130,14 @@ For every claim triaged, follow this procedure:
 1. get_claim, then get_policy.
 2. Verify the peril: check_weather_at_loss and find_storm_reports(radius_miles=25) at the claim's lat, lon and loss_date. Wind is corroborated if a Thunderstorm Wind, High Wind or Tornado report is within 10 miles. Hail is corroborated only if a Hail report is within 25 miles or hail_code is true. NOAA wind magnitudes are knots; say "kt". Open-Meteo gusts understate storms: use them only to say whether the loss date was the windiest day.
 3. Check red flags from the policy and claim: coverage_a_increased_on within 60 days before loss; reported_date more than 30 days after loss_date; prior claim with the same peril within 24 months; policy effective date 7 days or less before the loss and after the 16 May 2024 catastrophe declaration.
-4. search_policy_docs for the relevant rules; quote at most one short clause with its section.
+4. Only call search_policy_docs when asked about a specific claim; quote at most one short clause with its section.
 5. calculate_payout.
 6. Decide: siu_referral if the peril is not corroborated AND at least one red flag exists; inspect if the peril is not corroborated without red flags, or roof_age_years > 15, or net payout > the adjuster's remembered authority limit (or $25,000 default), or if the claim type matches a claim type the adjuster always wants flagged; otherwise fast_track.
 7. Answer with the decision, net payout, and at most 3 reasons, each citing evidence (report location and distance, red flag, clause). Neutral language: never call a customer fraudulent.
 
 Only call record_decision when the adjuster explicitly confirms ("approve", "confirm", "record it").
-For "triage the queue": list_claims, run steps 1-6 for each claim, then summarise counts and totals.
-After triaging a queue, pass the per-claim results (claim_id, decision, gross, net_payout, red flag count, reported_date) into a sandbox Python snippet using code execution that prints:
+For "triage the queue" or "triage the surge queue": call triage_queue(authority_limit_usd=..., flagged_claim_types=...) directly in a single tool call!
+After calling triage_queue, pass the per-claim results (claim_id, decision, gross_usd, net_payout_usd, red_flags_count, reported_date) into a sandbox Python snippet using code execution that prints:
 - total gross
 - total net
 - count and net $ by decision
@@ -185,6 +186,7 @@ root_agent = Agent(
     code_executor=code_executor,
     tools=[
         PreloadMemoryTool(),
+        triage_queue,
         get_weather,
         get_current_time,
         get_claim,
