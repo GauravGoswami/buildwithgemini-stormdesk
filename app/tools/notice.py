@@ -1,4 +1,4 @@
-"""Claim status notice graphic generator tool."""
+"""Claim status notice graphic generator and explainer video tools."""
 
 import os
 from datetime import datetime, timezone
@@ -106,5 +106,71 @@ async def generate_claim_notice(
     bucket = storage_client.bucket(MEDIA_BUCKET)
     blob = bucket.blob(blob_name)
     blob.upload_from_string(image_bytes, content_type=mime_type)
+
+    return blob.public_url
+
+
+async def generate_claim_explainer_video(
+    claim_id: str,
+    tool_context: ToolContext = None,
+) -> str:
+    """Generate a 6-second calm animated explainer video of the claim's next steps.
+
+    Args:
+        claim_id: Unique claim identifier (e.g. 'CLM-1001').
+        tool_context: ToolContext for saving session artifacts.
+
+    Returns:
+        Public HTTPS URL of the uploaded claim explainer video in MEDIA_BUCKET.
+    """
+    claim = get_claim(claim_id)
+    policy_type = (claim.get("type") or "").lower() if isinstance(claim, dict) else ""
+    icon_type = "car" if "auto" in policy_type else "house"
+
+    client = genai.Client(vertexai=True, location="global")
+    prompt = (
+        f"A 6-second calm animated explainer video of next steps for claim {claim_id}.\n"
+        f"Design elements:\n"
+        f"- Flat illustration style, navy #0B2545 and teal #13B5A6 colors on a clean white background\n"
+        f"- Simple {icon_type} icon showing claim review and progress steps\n"
+        f"- Calm smooth motion illustrating next steps for the policyholder\n"
+        f"- No people, no real logos."
+    )
+
+    res = client.interactions.create(
+        model="gemini-omni-flash-preview",
+        input=[{"type": "text", "text": prompt}],
+        response_modalities=["text", "video"],
+    )
+
+    video_bytes = None
+    if hasattr(res, "output_video") and res.output_video and getattr(res.output_video, "data", None):
+        video_bytes = res.output_video.data
+
+    if not video_bytes and hasattr(res, "outputs"):
+        for output in getattr(res, "outputs", []):
+            if getattr(output, "type", None) == "video" and hasattr(output, "data"):
+                video_bytes = output.data
+                break
+
+    if not video_bytes:
+        raise RuntimeError("Failed to generate video: no video bytes returned from model.")
+
+    mime_type = "video/mp4"
+
+    # 1. Save artifact for Playground Artifacts panel
+    filename = f"{claim_id}_explainer.mp4"
+    if tool_context and hasattr(tool_context, "save_artifact"):
+        artifact_part = types.Part.from_bytes(data=image_bytes, mime_type=mime_type)
+        await tool_context.save_artifact(filename=filename, artifact=artifact_part)
+
+    # 2. Upload same bytes to MEDIA_BUCKET at videos/<claim_id>-<timestamp>.mp4
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
+    blob_name = f"videos/{claim_id}-{timestamp}.mp4"
+
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(MEDIA_BUCKET)
+    blob = bucket.blob(blob_name)
+    blob.upload_from_string(video_bytes, content_type=mime_type)
 
     return blob.public_url

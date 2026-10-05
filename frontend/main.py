@@ -107,6 +107,21 @@ def _extract_parts_from_part(p) -> list[dict]:
         if "Cannot add session to memory" in text:
             return out
 
+        # Handle markdown ```json ... ``` containing A2UI surface updates
+        if "```json" in text:
+            m = re.search(r"```json\s*(.*?)\s*```", text, re.DOTALL)
+            if m:
+                try:
+                    payload = json.loads(m.group(1).strip())
+                    if isinstance(payload, list) and len(payload) > 0 and isinstance(payload[0], dict) and "surfaceId" in payload[0]:
+                        out.append({"kind": "a2ui", "data": {"surfaceUpdate": payload}})
+                        clean = re.sub(r"```json\s*.*?\s*```", "", text, flags=re.DOTALL).strip()
+                        if clean:
+                            out.append({"kind": "text", "text": clean})
+                        return out
+                except Exception:
+                    pass
+
         # Handle <a2ui-json> tags
         if "<a2ui-json>" in text:
             m = re.search(r"<a2ui-json>(.*?)</a2ui-json>", text, re.DOTALL)

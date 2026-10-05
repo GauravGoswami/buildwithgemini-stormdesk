@@ -38,7 +38,7 @@ from app.tools.claims import (
     record_decision,
     triage_queue,
 )
-from app.tools.notice import generate_claim_notice
+from app.tools.notice import generate_claim_notice, generate_claim_explainer_video
 from app.tools.payout import calculate_payout
 
 MEMORY_BANK_ID = "752382062991769600"
@@ -195,6 +195,7 @@ root_agent = Agent(
         calculate_payout,
         record_decision,
         generate_claim_notice,
+        generate_claim_explainer_video,
     ],
     after_agent_callback=generate_memories_callback,
     after_model_callback=a2ui_callback,
