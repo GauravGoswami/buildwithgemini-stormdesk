@@ -113,12 +113,26 @@ def _extract_parts_from_part(p) -> list[dict]:
             if m:
                 try:
                     payload = json.loads(m.group(1).strip())
-                    if isinstance(payload, list) and len(payload) > 0 and isinstance(payload[0], dict) and "surfaceId" in payload[0]:
-                        out.append({"kind": "a2ui", "data": {"surfaceUpdate": payload}})
-                        clean = re.sub(r"```json\s*.*?\s*```", "", text, flags=re.DOTALL).strip()
-                        if clean:
-                            out.append({"kind": "text", "text": clean})
-                        return out
+                    if isinstance(payload, list):
+                        for item in payload:
+                            if isinstance(item, dict):
+                                if "surfaceUpdate" in item or "beginRendering" in item:
+                                    out.append({"kind": "a2ui", "data": item})
+                                elif "components" in item:
+                                    out.append({"kind": "a2ui", "data": {"surfaceUpdate": item}})
+                                elif "id" in item and "component" in item:
+                                    out.append({"kind": "a2ui", "data": {"surfaceUpdate": {"components": payload}}})
+                                    break
+                    elif isinstance(payload, dict):
+                        res = _parse_a2ui_payload(payload)
+                        if res:
+                            out.append(res)
+                        else:
+                            out.append({"kind": "a2ui", "data": {"surfaceUpdate": payload}})
+                    clean = re.sub(r"```json\s*.*?\s*```", "", text, flags=re.DOTALL).strip()
+                    if clean:
+                        out.append({"kind": "text", "text": clean})
+                    return out
                 except Exception:
                     pass
 
@@ -128,10 +142,24 @@ def _extract_parts_from_part(p) -> list[dict]:
             if m:
                 try:
                     payload = json.loads(m.group(1).strip())
-                    out.append({"kind": "a2ui", "data": {"surfaceUpdate": payload}})
+                    if isinstance(payload, list):
+                        for item in payload:
+                            if isinstance(item, dict):
+                                if "surfaceUpdate" in item or "beginRendering" in item:
+                                    out.append({"kind": "a2ui", "data": item})
+                                elif "components" in item:
+                                    out.append({"kind": "a2ui", "data": {"surfaceUpdate": item}})
+                                elif "id" in item and "component" in item:
+                                    out.append({"kind": "a2ui", "data": {"surfaceUpdate": {"components": payload}}})
+                                    break
+                    elif isinstance(payload, dict):
+                        res = _parse_a2ui_payload(payload)
+                        if res:
+                            out.append(res)
+                        else:
+                            out.append({"kind": "a2ui", "data": {"surfaceUpdate": payload}})
                 except Exception:
                     pass
-            # Extract any remaining non-tag text
             clean = re.sub(r"<a2ui-json>.*?</a2ui-json>", "", text, flags=re.DOTALL).strip()
             if clean:
                 out.append({"kind": "text", "text": clean})

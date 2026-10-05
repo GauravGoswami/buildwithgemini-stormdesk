@@ -313,9 +313,23 @@ function renderSurface(messages, container) {
   const comps = {};
   const roots = [];
   for (const m of messages) {
+    if (!m) continue;
     if (m.beginRendering && typeof m.beginRendering.root === "string") roots.push(m.beginRendering.root);
-    const su = m.surfaceUpdate;
-    if (su && Array.isArray(su.components)) for (const c of su.components) if (c && c.id && c.component) comps[c.id] = c.component;
+    let su = m.surfaceUpdate || m;
+    if (Array.isArray(su)) {
+      for (const item of su) {
+        if (item && item.components && Array.isArray(item.components)) {
+          for (const c of item.components) if (c && c.id && c.component) comps[c.id] = c.component;
+        } else if (item && item.id && item.component) {
+          comps[item.id] = item.component;
+        }
+      }
+    } else if (su && typeof su === "object") {
+      const components = su.components || (Array.isArray(su) ? su : null);
+      if (Array.isArray(components)) {
+        for (const c of components) if (c && c.id && c.component) comps[c.id] = c.component;
+      }
+    }
   }
   let rootIds = roots.filter(r => comps[r]);
   if (rootIds.length === 0) {   // no valid root given -> infer un-referenced components
@@ -332,8 +346,14 @@ function renderSurface(messages, container) {
 function flattenText(messages) {
   const out = [];
   for (const m of messages) {
-    const su = m.surfaceUpdate;
-    if (su && Array.isArray(su.components)) for (const c of su.components) if (c && c.component && c.component.Text) out.push(boundStr(c.component.Text.text));
+    if (!m) continue;
+    let su = m.surfaceUpdate || m;
+    let list = [];
+    if (Array.isArray(su)) list = su;
+    else if (su && Array.isArray(su.components)) list = su.components;
+    for (const c of list) {
+      if (c && c.component && c.component.Text) out.push(boundStr(c.component.Text.text));
+    }
   }
   return out.join("\n").trim();
 }
@@ -343,13 +363,68 @@ function renderReply(b, parts) {
   const texts = parts.filter(p => p && (p.kind === "text" || (!p.kind && p.text))).map(p => p.text || "");
   const a2ui = parts.filter(p => p && p.kind === "a2ui" && p.data).map(p => p.data);
 
-  const textStr = texts.join("\n").trim();
+  let textStr = texts.join("\n").trim();
+
+  // Extract any image or video media URLs in texts or parts
+  const mediaRegex = /(https?:\/\/[^\s"'<>]+\.(png|jpg|jpeg|webp|mp4|webm)|https?:\/\/storage\.googleapis\.com\/[^\s"'<>]*)/gi;
+  const foundUrls = (texts.join(" ") + " " + JSON.stringify(parts)).match(mediaRegex) || [];
+  const videoUrls = [];
+  const imageUrls = [];
+
+  for (const url of foundUrls) {
+    const cleanUrl = url.replace(/[.,;)]+$/, "");
+    if (/\.(mp4|webm)($|\?)/i.test(cleanUrl) || /\/videos\//i.test(cleanUrl)) {
+      if (!videoUrls.includes(cleanUrl)) videoUrls.push(cleanUrl);
+    } else if (/\.(png|jpg|jpeg|webp)($|\?)/i.test(cleanUrl) || /\/notices\//i.test(cleanUrl)) {
+      if (!imageUrls.includes(cleanUrl)) imageUrls.push(cleanUrl);
+    }
+  }
+
+  // Remove raw video/image URLs from plain text so clean message text is shown
+  for (const vUrl of videoUrls) { textStr = textStr.replaceAll(vUrl, "").trim(); }
+  for (const iUrl of imageUrls) { textStr = textStr.replaceAll(iUrl, "").trim(); }
+
   if (textStr) b.appendChild(el("div", null, textStr));
 
+  let drewCard = false;
   if (a2ui.length) {
     b.classList.add("rich");
-    if (!renderSurface(a2ui, b)) b.appendChild(el("div", null, flattenText(a2ui) || "(no card content)"));
+    drewCard = renderSurface(a2ui, b);
+    if (!drewCard) {
+      const flat = flattenText(a2ui);
+      if (flat) b.appendChild(el("div", null, flat));
+    }
   }
+
+  // Render Image media elements if not already rendered inside an A2UI card
+  for (const imgUrl of imageUrls) {
+    if (!b.querySelector(`img[src="${imgUrl}"]`)) {
+      const img = el("img", "a2img");
+      img.src = imgUrl;
+      img.style.marginTop = "0.5rem";
+      b.appendChild(img);
+    }
+  }
+
+  // Render Video media elements with controls, autoplay, muted, loop
+  for (const vidUrl of videoUrls) {
+    if (!b.querySelector(`video[src="${vidUrl}"]`)) {
+      const vid = document.createElement("video");
+      vid.className = "a2video";
+      vid.src = vidUrl;
+      vid.controls = true;
+      vid.autoplay = true;
+      vid.muted = true;
+      vid.loop = true;
+      vid.playsInline = true;
+      vid.style.maxWidth = "100%";
+      vid.style.borderRadius = "8px";
+      vid.style.marginTop = "0.5rem";
+      vid.style.display = "block";
+      b.appendChild(vid);
+    }
+  }
+
   if (!b.childNodes.length) b.textContent = "(no response)";
   log.scrollTop = log.scrollHeight;
 }
