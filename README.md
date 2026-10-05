@@ -4,6 +4,8 @@
 
 ![StormDesk Demo](demo.gif)
 
+> 🎬 **[Watch full high-resolution demo video (agent_demo.webm)](agent_demo.webm)**
+
 > ⚠️ **Disclaimer:** *Cedar Ridge Insurance Company, policyholder names, and individual claim records are fictional. Weather measurements and NOAA storm reports are real data from the May 16, 2024 Houston Derecho (Harris County, TX).*
 
 ---
