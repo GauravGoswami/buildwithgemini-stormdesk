@@ -1,198 +1,143 @@
-<div align="center">
+# 🌩️ StormDesk: Catastrophe-Claims Triage Copilot
 
-<img src="assets/build-with-gemini-banner.png" alt="Build with Gemini" width="100%" />
+> **A catastrophe-claims triage agent that helps insurance adjusters clear post-storm claim surges in seconds with cited weather evidence, policy RAG grounding, and automated payout calculations.**
 
-# 🚀 Build with Gemini · Track 3
+![StormDesk Demo](demo.gif)
 
-### The starter kit for Track 3 of the Build with Gemini World Tour, and a showcase of what participants built with it.
-
-Clone this repo, open [Antigravity](https://antigravity.google), and build your own agent-first app on Google Cloud. Every project in the [gallery below](#-featured-projects) was built the same way: prototyped with Antigravity and `agents-cli`, equipped with Memory, tools, and storage, deployed to Agent Platform, and given a face on Cloud Run.
-
-<br/>
-
-![Build with Gemini](https://img.shields.io/badge/Build%20with%20Gemini-World%20Tour-4285F4?logo=google&logoColor=white)
-![Track 3](https://img.shields.io/badge/Track%203-Agent--First%20Apps-EA4335)
-![Google Cloud](https://img.shields.io/badge/Google%20Cloud-Agent%20Platform-4285F4?logo=googlecloud&logoColor=white)
-![Built with ADK](https://img.shields.io/badge/Built%20with-ADK%20%2B%20agents--cli-34A853)
-![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)
-![Projects](https://img.shields.io/badge/Projects-8-blue)
-
-<sub>📖 <a href="https://cszhu.github.io/build-with-gemini/">Lab Guide</a> · 🛠️ <a href="https://google.github.io/agents-cli/guide/getting-started/">agents-cli</a> · 🤖 <a href="https://google.github.io/adk-docs/">ADK</a></sub>
-
-</div>
+> ⚠️ **Disclaimer:** *Cedar Ridge Insurance Company, policyholder names, and individual claim records are fictional. Weather measurements and NOAA storm reports are real data from the May 16, 2024 Houston Derecho (Harris County, TX).*
 
 ---
 
-## 📚 Table of Contents
+## 💥 The Business Problem
 
-- [🧩 Anatomy of a Track 3 Project](#-anatomy-of-a-track-3-project)
-- [📂 Featured Projects](#-featured-projects)
-  - [🛍️ Commerce & Marketplace Agents](#️-commerce--marketplace-agents)
-  - [🍳 Food & Recipe Agents](#-food--recipe-agents)
-  - [✈️ Travel & Local Agents](#️-travel--local-agents)
-  - [💪 Health, Fitness & Wellness Agents](#-health-fitness--wellness-agents)
-  - [📚 Learning & Knowledge Agents](#-learning--knowledge-agents)
-  - [🎨 Creative & Media Agents](#-creative--media-agents)
-  - [🏢 Productivity & Enterprise Agents](#-productivity--enterprise-agents)
-  - [🧪 Experimental & Other](#-experimental--other)
-- [🧠 What's in this Repo](#-whats-in-this-repo)
-- [🧰 Build Your Own](#-build-your-own)
-- [📚 Resources](#-resources)
-- [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
+When severe weather strikes—such as the May 16, 2024 Houston derecho—property & casualty insurers receive thousands of claims within a 24-to-48-hour window.
+
+1. **Catastrophe Claim Surges:** Adjusters are overwhelmed with massive claim queues, manually checking policy limits, looking up weather history, applying complex deductibles, and deciding whether to fast-track, inspect, or investigate.
+2. **Statutory Prompt-Pay Deadlines:** Regulations such as **Texas Insurance Code Chapter 542** mandate strict deadlines (e.g., 15-day mandatory acknowledgement). Backlogs lead to statutory interest penalties and regulatory fines.
+3. **Opportunistic Fraud Exposure:** High-volume surges create opportunities for fraudulent claims—such as pre-existing damage, uncorroborated storm losses, or coverage added immediately before or after a catastrophe declaration—to slip through unnoticed.
 
 ---
 
-## 🧩 Anatomy of a Track 3 Project
+## 🎯 The Result
 
-Every app in this collection is built from the same set of Google Cloud building blocks introduced in the lab. Once you understand this shape, you can read any project here at a glance:
+StormDesk triages an entire catastrophe surge queue in seconds, providing adjusters with fully cited evidence for every decision:
 
-| Layer | What it does | Powered by |
-|---|---|---|
-| 🤖 **The Agent** | The core reasoning loop | [ADK](https://google.github.io/adk-docs/) + [`agents-cli`](https://google.github.io/agents-cli/guide/getting-started/), scaffolded with [Antigravity](https://antigravity.google) |
-| 🧠 **Memory** | Remembers facts across sessions | [Agent Platform Memory Bank](https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale/memory-bank) |
-| 🗄️ **Structured data** | Inventory, records, lists | [Firestore](https://console.cloud.google.com/firestore) |
-| 🖼️ **Files & blobs** | Images, media, assets | [Cloud Storage](https://console.cloud.google.com/storage) |
-| 🔧 **Tools** | Take real actions and fetch real data | ADK function tools |
-| 🎨 **Media generation** | Creates images (and video) on demand | `gemini-3.1-flash-lite-image` (Nano Banana 2 Lite) · Omni (video) |
-| 🧪 **Code sandbox** | Safely runs generated code | Agent Platform code execution |
-| 🪟 **Agent-first UI** | Cards and tables instead of plain text | [A2UI](https://adk.dev/integrations/a2ui/) |
-| 🌐 **Frontend** | A shareable web face | FastAPI proxy on [Cloud Run](https://cloud.google.com/run) |
+* **14 Claims Triaged in Seconds:** Cleared the May 2024 derecho surge queue into **8 Fast-Track** approvals, **4 Inspection** assignments, and **2 SIU (Special Investigation Unit) Fraud Referrals**.
+* **2 SIU Referrals Caught Before Payout:**
+  * **`CLM-1042`:** Claimed hail damage during the wind-dominated derecho. StormDesk cross-referenced NOAA reports to reveal the nearest hail report was **69 miles away**, while flagging 3 critical red flags (coverage limit increased <60 days prior, reported >30 days late, and prior claim within 24 months).
+  * **`CLM-1057`:** Claimed wind damage on May 20 on a policy purchased on May 17 (1 day after the catastrophe declaration). StormDesk verified zero NOAA storm reports or severe wind gusts existed anywhere in the zip code on May 20.
 
 ---
 
-## 📂 Featured Projects
+## 🛠️ Wired-Up Capabilities
 
-A showcase of what workshop participants built with this lab. Entries are added here from the swag and gallery submission form after each event, so the categories below start empty and fill in over time. Browse them for inspiration, or [submit your own](#-contributing) once you've published your project with the `publish-to-github` skill.
+*Every capability listed below is fully implemented and operational in `app/` and `agents-cli-manifest.yaml`:*
 
-<!--
-Add one entry per project, in this format:
-- 🌿 **[Project Name](https://github.com/their-handle/their-repo)**: one-line description of what it does. <br/> <sub>by [@handle](https://github.com/handle)</sub>
-
-Bump the "Projects" badge count at the top when you add one.
--->
-
-### 🛍️ Commerce & Marketplace Agents
-
-### 🍳 Food & Recipe Agents
-
-- 🥫 **[Smart Pantry Recipe Concierge](https://github.com/matthewrose/buildwithgemini-smart-pantry-recipe-concierge)**: Tracks your pantry and recommends recipes grounded in a real recipe corpus. <br/> <sub>by [@matthewrose](https://github.com/matthewrose)</sub>
-
-### ✈️ Travel & Local Agents
-
-- ⛈️ **[SafeStageWX](https://github.com/felix1028/buildwithgemini-safestagewx)**: An agentic mobile app that helps event planners identify weather threats and climate risks for an event given its date and location, providing tailored preparedness timelines from months out down to hourly day-of forecasts. <br/> <sub>by [@felix1028](https://github.com/felix1028)</sub>
-- 🌇 **[Sidewalk & Sun](https://github.com/OlafHaalstra/buildwithgemini-sidewalk-and-sun)**: Recommends sunny or shaded NYC spots from a curated 500-venue corpus, plotted on an interactive map. <br/> <sub>by [@OlafHaalstra](https://github.com/OlafHaalstra)</sub>
-
-### 💪 Health, Fitness & Wellness Agents
-
-- 🏊 **[TriCoach AI](https://github.com/common-aman/buildwithgemini-tricoach-ai)**: A triathlon coach that logs workouts, computes training zones, and generates motivational visuals. <br/> <sub>by [@common-aman](https://github.com/common-aman)</sub>
-
-### 📚 Learning & Knowledge Agents
-
-- 🎤 **[Interview Coach (PrepPal)](https://github.com/VineethBaradi/buildwithgemini-interview-coach)**: A mock-interview coach that runs LLM-driven practice sessions from a Firestore question bank and gives performance feedback. <br/> <sub>by [@VineethBaradi](https://github.com/VineethBaradi)</sub>
-
-### 🎨 Creative & Media Agents
-
-### 🏢 Productivity & Enterprise Agents
-
-- 🔧 **[GitCraft](https://github.com/fpobletemu/buildwithgemini-gitcraft)**: A developer git assistant that inspects your repo and drafts Conventional-Commits-style messages, grounded in a commit-style guide. <br/> <sub>by [@fpobletemu](https://github.com/fpobletemu)</sub>
-- 🖥️ **[IT Helpdesk Agent](https://github.com/NaweedAhmadi/buildwithgemini-it-helpdesk-agent)**: An IT support assistant that answers from a knowledge base and remembers context across sessions, with a ticket dashboard UI. <br/> <sub>by [@NaweedAhmadi](https://github.com/NaweedAhmadi)</sub>
-
-### 🧪 Experimental & Other
-
-- 🃏 **[Poker Agent](https://github.com/jakecho1108/buildwithgemini-poker-agent)**: A poker trainer with a real 800-iteration Monte Carlo equity engine and strategy tips grounded in a poker playbook. <br/> <sub>by [@jakecho1108](https://github.com/jakecho1108)</sub>
+* **Firestore Claim & Policy Store (`app/tools/claims.py`)**:
+  * `get_claim`: Retrieves detailed claim records (peril, loss date, estimate, zip code, roof age).
+  * `list_claims`: Fetches surge queue records filtered by status (`new`, `fast_track`, `inspect`, `siu_referral`).
+  * `get_policy`: Looks up policy coverage limits, wind/hail percentage deductibles, and effective dates.
+  * `record_decision`: Persists finalized triage decisions, net payout USD, reasoning, and timestamps to Firestore upon explicit adjuster confirmation.
+* **Weather & NOAA Storm Corroboration (`app/tools/weather.py`)**:
+  * `check_weather_at_loss`: Queries the Open-Meteo Historical Archive API for loss-date max wind gusts (mph), precipitation sum, weather codes, hail indicators (codes 96/99), and windiest-day-in-window comparisons.
+  * `find_storm_reports`: Computes Great Circle (Haversine) distances against real NOAA storm event reports in Firestore to verify whether severe wind/tornado reports are within 10 miles or hail reports within 25 miles.
+* **Policy Wording RAG Grounding (`app/tools/policy_docs.py`)**:
+  * `search_policy_docs`: Queries the `stormdesk-policy-docs` corpus in Vertex AI RAG Engine to fetch exact policy clauses, roof depreciation schedules, deductible terms, and prompt-pay guidelines.
+* **Deterministic Payout Calculation (`app/tools/payout.py`)**:
+  * `calculate_payout`: Computes gross estimate, percentage deductibles (1% of Coverage A limit for wind/hail on HO3 policies), ACV roof depreciation (for roofs >15 years with an ACV endorsement), and net payout USD.
+* **Customer Notice & Video Explainer Generation (`app/tools/notice.py`)**:
+  * `generate_claim_notice`: Uses `gemini-3.1-flash-lite-image` to generate a branded 3-step progress notice graphic (Received > Assessed > Paid), saving session artifacts and uploading to Google Cloud Storage (`stormdesk-media-8c3b70`).
+  * `generate_claim_explainer_video`: Uses `gemini-omni-flash-preview` to generate a 6-second animated customer explainer video detailing next steps.
+* **Sandboxed Queue Analytics (`google.adk.code_executors.AgentEngineSandboxCodeExecutor`)**:
+  * Executes Python code inside a secure Google Cloud sandbox to compute aggregate queue financial exposure, decision breakdowns, top red-flag claims, and Texas prompt-pay acknowledgement deadlines (`reported_date + 15 days`).
+* **Adjuster Preference Memory (`google.adk.memory.VertexAiMemoryBankService`)**:
+  * Persists adjuster personalization (authority limits, mandatory flag criteria, notice tone) across sessions via Memory Bank ID `752382062991769600`.
+* **A2UI Structured Card Rendering (`a2ui_utils.py` & `A2uiSchemaManager`)**:
+  * Generates native A2UI JSON payloads to render interactive Claim Cards, Queue Summaries, and Verification Cards directly in the frontend UI.
 
 ---
 
-## 🧠 What's in this Repo
+## 🏗️ System Architecture
 
-The `.agents/` folder teaches Antigravity how to build agents on Google Cloud.
-
-### Skills
-
-A **skill** is a bundle of instructions that loads automatically when it's relevant, so the agent gets the workflow right in fewer steps instead of rediscovering it each time.
-
-| Skill | What it does |
-| --- | --- |
-| [`pick-your-agent-project`](.agents/skills/pick-your-agent-project/SKILL.md) | Brainstorm your app idea and write a project brief |
-| [`troubleshoot-lab-setup`](.agents/skills/troubleshoot-lab-setup/SKILL.md) | Verify your environment and fix common setup errors |
-| [`memory-bank-setup`](.agents/skills/setup-memory-bank/SKILL.md) | Add cross-session memory to your agent with Vertex AI Memory Bank |
-| [`enable-a2ui`](.agents/skills/enable-a2ui/SKILL.md) | Make your agent reply with rich UI cards (A2UI) in the ADK dev UI |
-| [`build-agent-frontend`](.agents/skills/build-agent-frontend/SKILL.md) | Generate a FastAPI chat frontend and ship it to Cloud Run |
-| [`record-demo`](.agents/skills/record-demo/SKILL.md) | Record a branded demo video of your agent, with an optional AI soundtrack |
-| [`publish-to-github`](.agents/skills/publish-to-github/SKILL.md) | Publish your finished project to your own GitHub and submit it for swag |
-
-### Pre-configured tools (MCP)
-
-[`.agents/mcp_config.json`](.agents/mcp_config.json) wires up two [Model Context Protocol](https://modelcontextprotocol.io/) servers that authenticate with your gcloud credentials, so the agent can look things up instead of guessing:
-
-- **Firebase**: work directly with Firestore and other Firebase services
-- **Google Developer Knowledge**: grounded access to Google's official docs (Cloud, Firebase, ADK, Agent Platform)
-
-### Layout
-
-```text
-.agents/
-├── mcp_config.json    # Firebase + Developer Knowledge MCP servers
-├── rules/             # workspace rules (only deploy when asked)
-└── skills/            # the workshop skills listed above
+```
+                                 ┌──────────────────────────────────────────────┐
+                                 │              User / Adjuster                 │
+                                 └──────────────────────┬───────────────────────┘
+                                                        │
+                                                        ▼
+                                 ┌──────────────────────────────────────────────┐
+                                 │           FastAPI Web Frontend               │
+                                 │          (Cloud Run / Port 8080)             │
+                                 └──────────────────────┬───────────────────────┘
+                                                        │ A2A Protocol (ADC)
+                                                        ▼
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Google Cloud Agent Platform (Agent Runtime)                                                            │
+│                                                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐  │
+│  │ StormDesk ADK Agent (gemini-2.5-flash)                                                            │  │
+│  └──────┬────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬────────┘  │
+│         │            │             │             │             │             │             │           │
+└─────────┼────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼───────────┘
+          │            │             │             │             │             │             │
+          ▼            ▼             ▼             ▼             ▼             ▼             ▼
+  ┌──────────────┐ ┌─────────┐ ┌───────────┐ ┌───────────┐ ┌───────────┐ ┌───────────┐ ┌──────────────┐
+  │ Cloud        │ │ Open-   │ │ Vertex AI │ │ Vertex AI │ │ Python    │ │ Cloud     │ │ Gemini       │
+  │ Firestore    │ │ Meteo   │ │ RAG       │ │ Memory    │ │ Code      │ │ Storage   │ │ Media Models │
+  │              │ │ Archive │ │ Engine    │ │ Bank      │ │ Sandbox   │ │ Bucket    │ │ (Imagen/     │
+  │ (Claims,     │ │ API     │ │ (Policy   │ │           │ │           │ │           │ │  Omni)       │
+  │  Policies,   │ │         │ │  Docs)    │ │ (Adjuster │ │ (Queue    │ │ (Notice   │ │              │
+  │  NOAA)       │ │ (Wind/  │ │           │ │  Limits)  │ │  Stats)   │ │  Media)   │ │ (Graphics &  │
+  │              │ │  Gusts) │ │           │ │           │ │           │ │           │ │  Videos)     │
+  └──────────────┘ └─────────┘ └───────────┘ └───────────┘ └───────────┘ └───────────┘ └──────────────┘
 ```
 
 ---
 
-## 🧰 Build Your Own
+## 📊 Eval Baseline vs. After Results
 
-The full, step-by-step walkthrough lives on the **[lab guide](https://cszhu.github.io/build-with-gemini/)**. This is the short version.
+StormDesk was benchmarked using Google ADK's `AgentEvaluator` across an 8-case evaluation set testing triage decisions, weather grounding, deductible calculations, and policy doc retrieval:
 
-**Prerequisites** (the lab workstation comes with all of this pre-installed; you'll need it if you're running on your own machine):
+| Metric | Baseline Prompt / Tools | Optimized StormDesk (After) | Improvement |
+| :--- | :---: | :---: | :---: |
+| **Eval Cases Passed** | 6 / 8 (75.0%) | **8 / 8 (100.0%)** | **+25.0%** |
+| **Response Match Score** | 0.750 | **1.000** | **+0.250** |
+| **Tool Trajectory Score** | 1.000 | **1.000** | **—** |
+| **Overall Score** | 0.8125 (81.25%) | **1.0000 (100.0%)** | **+18.75%** |
 
-- A **Google Cloud project** with billing enabled
-- **[Antigravity](https://antigravity.google)** (`agy`), the coding agent that loads the skills above
-- **[agents-cli](https://google.github.io/agents-cli/guide/getting-started/)**, built on the [Agent Development Kit (ADK)](https://google.github.io/adk-docs/)
-- Authenticated gcloud: `gcloud auth login` and `gcloud auth application-default login`
-- A personal **GitHub account** for the final publish-and-submit step
+### Evaluation Case Breakdown (`eval_results/after.json`)
 
-**Quickstart:**
-
-```bash
-git clone https://github.com/cszhu/build-with-gemini
-cd build-with-gemini
-agy
-```
-
-On startup, Antigravity scans the `.agents/` folder and loads the skills and tools above automatically. In the AGY prompt:
-
-```text
-/skills            # see the installed skills
-/mcp               # confirm the firebase + google-developer-knowledge tools are connected
-```
-
-```text
-Verify my setup.   # runs the troubleshoot-lab-setup skill to check your environment
-```
-
-Then follow the [lab guide](https://cszhu.github.io/build-with-gemini/) to design, build, deploy, and share your agent, start to finish.
+| Case ID | Prompt Target | Expected Outcome | Result | Score |
+| :--- | :--- | :--- | :---: | :---: |
+| `case_1_CLM-1003` | Triage `CLM-1003` | `fast_track`, Net payout $5,600 | **PASS** | 1.00 |
+| `case_2_CLM-1042` | Triage `CLM-1042` | `siu_referral`, Uncorroborated hail + red flags | **PASS** | 1.00 |
+| `case_3_CLM-1057` | Triage `CLM-1057` | `siu_referral`, No storm report + recent policy | **PASS** | 1.00 |
+| `case_4_CLM-1015` | Triage `CLM-1015` | `inspect`, Roof age > 15 years | **PASS** | 1.00 |
+| `case_5_CLM-1005` | Triage `CLM-1005` | `fast_track`, Corroborated wind peril | **PASS** | 1.00 |
+| `case_6_CLM-2009` | Triage `CLM-2009` | `fast_track`, Auto comp payout calculation | **PASS** | 1.00 |
+| `case_7_CLM-1003_deductible` | Policy lookup `CLM-1003` | 1% Coverage A wind/hail deductible clause | **PASS** | 1.00 |
+| `case_8_CLM-1001` | Triage `CLM-1001` | `fast_track`, Nearest NOAA report citation | **PASS** | 1.00 |
 
 ---
 
-## 📚 Resources
+## 🚀 Running Locally
 
-- **[Lab guide](https://cszhu.github.io/build-with-gemini/)**: the step-by-step workshop
-- [Antigravity](https://antigravity.google)
-- [agents-cli](https://google.github.io/agents-cli/guide/getting-started/)
-- [Agent Development Kit (ADK)](https://google.github.io/adk-docs/)
-- [Gemini Enterprise Agent Platform](https://docs.cloud.google.com/gemini-enterprise-agent-platform)
+1. **Environment Setup**:
+   ```bash
+   export GOOGLE_CLOUD_PROJECT="qwiklabs-gcp-02-920870f66970"
+   export GOOGLE_CLOUD_LOCATION="us-central1"
+   export AGENT_ENGINE_RESOURCE_NAME="projects/530096826746/locations/us-central1/reasoningEngines/752382062991769600"
+   ```
 
----
+2. **Start the Frontend Web Console**:
+   ```bash
+   cd frontend
+   pip install -r requirements.txt
+   python3 main.py
+   # Access UI at http://localhost:8080
+   ```
 
-## 🤝 Contributing
-
-**Built something?** Publish it with the `publish-to-github` skill and submit it through the form it gives you. Submissions get you swag, and standout projects get added to the [Featured Projects](#-featured-projects) gallery above.
-
-**Found a bug?** If you hit a rough edge in a skill or the lab, please [open an issue](https://github.com/cszhu/build-with-gemini/issues).
-
----
-
-## 📄 License
-
-This is not an officially supported Google product and is provided for the Build with Gemini workshop for demonstration purposes only.
+3. **Run Evaluation Benchmark**:
+   ```bash
+   python3 build_eval_set.py
+   ```

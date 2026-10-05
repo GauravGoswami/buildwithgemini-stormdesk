@@ -4,6 +4,18 @@ context.md
 # macOS noise
 .DS_Store
 
+# Python & virtual envs
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+.env
+
+# ADK session databases
+*.db
+
 # record-demo artifacts (Playwright install + temp recording dir)
 node_modules/
 package-lock.json

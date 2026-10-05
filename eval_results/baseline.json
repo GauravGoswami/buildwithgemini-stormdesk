@@ -1,0 +1,139 @@
+{
+  "eval_set_id": "stormdesk_eval_set",
+  "trace_file": "artifacts/traces/traces_20261005_102856.json",
+  "results": [
+    {
+      "case_id": "case_1_CLM-1003",
+      "prompt": "Triage CLM-1003",
+      "scores": {
+        "response_match_score": 0.0,
+        "tool_trajectory_score": 1.0,
+        "overall_score": 0.5
+      },
+      "tool_calls": [
+        "get_claim",
+        "get_policy",
+        "get_weather",
+        "find_storm_reports",
+        "calculate_payout"
+      ],
+      "status": "FAIL"
+    },
+    {
+      "case_id": "case_2_CLM-1042",
+      "prompt": "Triage CLM-1042",
+      "scores": {
+        "response_match_score": 1.0,
+        "tool_trajectory_score": 1.0,
+        "overall_score": 1.0
+      },
+      "tool_calls": [
+        "get_claim",
+        "get_policy",
+        "check_weather_at_loss",
+        "find_storm_reports",
+        "get_weather",
+        "calculate_payout"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case_id": "case_3_CLM-1057",
+      "prompt": "Triage CLM-1057",
+      "scores": {
+        "response_match_score": 0.0,
+        "tool_trajectory_score": 1.0,
+        "overall_score": 0.5
+      },
+      "tool_calls": [
+        "get_claim",
+        "get_policy",
+        "calculate_payout",
+        "get_weather",
+        "find_storm_reports"
+      ],
+      "status": "FAIL"
+    },
+    {
+      "case_id": "case_4_CLM-1015",
+      "prompt": "Triage CLM-1015",
+      "scores": {
+        "response_match_score": 1.0,
+        "tool_trajectory_score": 1.0,
+        "overall_score": 1.0
+      },
+      "tool_calls": [
+        "get_claim",
+        "get_policy",
+        "check_weather_at_loss",
+        "calculate_payout"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case_id": "case_5_CLM-1005",
+      "prompt": "Triage CLM-1005",
+      "scores": {
+        "response_match_score": 1.0,
+        "tool_trajectory_score": 1.0,
+        "overall_score": 1.0
+      },
+      "tool_calls": [
+        "get_claim",
+        "get_policy",
+        "check_weather_at_loss",
+        "find_storm_reports",
+        "get_weather",
+        "calculate_payout"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case_id": "case_6_CLM-2009",
+      "prompt": "Triage CLM-2009",
+      "scores": {
+        "response_match_score": 1.0,
+        "tool_trajectory_score": 1.0,
+        "overall_score": 1.0
+      },
+      "tool_calls": [
+        "get_claim",
+        "get_policy",
+        "calculate_payout"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case_id": "case_7_CLM-1003_deductible",
+      "prompt": "What is the wind and hail deductible on CLM-1003's policy?",
+      "scores": {
+        "response_match_score": 1.0,
+        "tool_trajectory_score": 1.0,
+        "overall_score": 1.0
+      },
+      "tool_calls": [
+        "get_claim",
+        "get_policy"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case_id": "case_8_CLM-1001",
+      "prompt": "Triage CLM-1001",
+      "scores": {
+        "response_match_score": 1.0,
+        "tool_trajectory_score": 1.0,
+        "overall_score": 1.0
+      },
+      "tool_calls": [
+        "get_claim",
+        "get_policy",
+        "check_weather_at_loss",
+        "get_weather",
+        "find_storm_reports",
+        "calculate_payout"
+      ],
+      "status": "PASS"
+    }
+  ]
+}

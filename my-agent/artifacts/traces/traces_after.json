@@ -1,0 +1,390 @@
+{
+  "eval_set_id": "stormdesk_eval_set",
+  "eval_cases": [
+    {
+      "eval_case_id": "case_1_CLM-1003",
+      "agent_data": {
+        "turns": [
+          {
+            "events": [
+              {
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "name": "get_claim"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "get_policy"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "check_weather_at_loss"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "find_storm_reports"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "search_policy_docs"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "search_policy_docs"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "calculate_payout"
+                      }
+                    },
+                    {
+                      "text": "<a2ui-json>\n{\n  \"surfaceId\": \"claim_card_CLM-1003\",\n  \"components\": [\n    {\n      \"id\": \"root\",\n      \"component\": {\n        \"Card\": {\n          \"child\": \"claim_card_column\"\n        }\n      }\n    },\n    {\n      \"id\": \"claim_card_column\",\n      \"component\": {\n        \"Column\": {\n          \"children\": {\n            \"explicitList\": [\n              \"claim_title\",\n              \"decision_text\",\n              \"reason1\",\n              \"reason2\",\n              \"reason3\",\n              \"payout_text\"\n            ]\n          }\n        }\n      }\n    },\n    {\n      \"id\": \"claim_title\",\n      \"component\": {\n        \"Text\": {\n          \"text\": {\n            \"literalString\": \"CLM-1003 | Daniel Okafor\"\n          },\n          \"usageHint\": \"h2\"\n        }\n      }\n    },\n    {\n      \"id\": \"decision_text\",\n      \"component\": {\n        \"Text\": {\n          \"text\": {\n            \"literalString\": \"FAST_TRACK\"\n          },\n          \"usageHint\": \"body\"\n        }\n      }\n    },\n    {\n      \"id\": \"reason1\",\n      \"component\": {\n        \"Text\": {\n          \"text\": {\n            \"literalString\": \"Wind peril corroborated by NOAA Thunderstorm Wind report 1.5 miles away.\"\n          },\n          \"usageHint\": \"body\"\n        }\n      }\n    },\n    {\n      \"id\": \"reason2\",\n      \"component\": {\n        \"Text\": {\n          \"text\": {\n            \"literalString\": \"No red flags found.\"\n          },\n          \"usageHint\": \"body\"\n        }\n      }\n    },\n    {\n      \"id\": \"reason3\",\n      \"component\": {\n        \"Text\": {\n          \"text\": {\n            \"literalString\": \"Net payout $5600 is within authority limit.\"\n          },\n          \"usageHint\": \"body\"\n        }\n      }\n    },\n    {\n      \"id\": \"payout_text\",\n      \"component\": {\n        \"Text\": {\n          \"text\": {\n            \"literalString\": \"Net payout $5600\"\n          },\n          \"usageHint\": \"body\"\n        }\n      }\n    }\n  ]\n}\n</a2ui-json>"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_2_CLM-1042",
+      "agent_data": {
+        "turns": [
+          {
+            "events": [
+              {
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "name": "get_claim"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "get_policy"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "check_weather_at_loss"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "find_storm_reports"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "search_policy_docs"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "calculate_payout"
+                      }
+                    },
+                    {
+                      "text": "<a2ui-json>\n{\n  \"surfaceId\": \"CLM-1042\",\n  \"components\": [\n    {\n      \"id\": \"card_root\",\n      \"component\": {\n        \"Card\": {\n          \"child\": \"column_root\"\n        }\n      }\n    },\n    {\n      \"id\": \"column_root\",\n      \"component\": {\n        \"Column\": {\n          \"children\": {\n            \"explicitList\": [\n              \"claim_header\",\n              \"decision_text\",\n              \"reason1_text\",\n              \"reason2_text\",\n              \"reason3_text\",\n              \"payout_text\"\n            ]\n          }\n        }\n      }\n    },\n    {\n      \"id\": \"claim_header\",\n      \"component\": {\n        \"Text\": {\n          \"text\": {\n            \"literalString\": \"CLM-1042 | Victor Lane\"\n          },\n          \"usageHint\": \"h2\"\n        }\n      }\n    },\n    {\n      \"id\": \"decision_text\",\n      \"component\": {\n        \"Text\": {\n          \"text\": {\n            \"literalString\": \"SIU_REFERRAL\"\n          },\n          \"usageHint\": \"body\"\n        }\n      }\n    },\n    {\n      \"id\": \"reason1_text\",\n      \"component\": {\n        \"Text\": {\n          \"text\": {\n            \"literalString\": \"Hail peril not corroborated: Nearest hail report 75.9 miles away, hail_code was false.\"\n          },\n          \"usageHint\": \"body\"\n        }\n      }\n    },\n    {\n      \"id\": \"reason2_text\",\n      \"component\": {\n        \"Text\": {\n          \"text\": {\n            \"literalString\": \"Coverage A increased on 2024-04-25, 21 days before loss date 2024-05-16, within 60 days of loss.\"\n          },\n          \"usageHint\": \"body\"\n        }\n      }\n    },\n    {\n      \"id\": \"reason3_text\",\n      \"component\": {\n        \"Text\": {\n          \"text\": {\n            \"literalString\": \"Reported date 2024-06-20 is 35 days after loss date 2024-05-16, exceeding 30-day threshold.\"\n          },\n          \"usageHint\": \"body\"\n        }\n      }\n    },\n    {\n      \"id\": \"payout_text\",\n      \"component\": {\n        \"Text\": {\n          \"text\": {\n            \"literalString\": \"Net payout $25000\"\n          },\n          \"usageHint\": \"body\"\n        }\n      }\n    }\n  ]\n}\n</a2ui-json>"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_3_CLM-1057",
+      "agent_data": {
+        "turns": [
+          {
+            "events": [
+              {
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "name": "get_claim"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "get_policy"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "check_weather_at_loss"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "find_storm_reports"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "search_policy_docs"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "calculate_payout"
+                      }
+                    },
+                    {
+                      "text": "<a2ui-json>\n  {\n    \"surfaceId\": \"claim_card\",\n    \"components\": [\n      {\n        \"id\": \"card_root\",\n        \"component\": {\n          \"Card\": {\n            \"child\": \"claim_column\"\n          }\n        }\n      },\n      {\n        \"id\": \"claim_column\",\n        \"component\": {\n          \"Column\": {\n            \"children\": {\n              \"explicitList\": [\n                \"claim_id_insured\",\n                \"decision_text\",\n                \"reason1_text\",\n                \"reason2_text\",\n                \"payout_text\"\n              ]\n            }\n          }\n        }\n      },\n      {\n        \"id\": \"claim_id_insured\",\n        \"component\": {\n          \"Text\": {\n            \"text\": {\n              \"literalString\": \"CLM-1057 | Jordan Pike\"\n            },\n            \"usageHint\": \"h2\"\n          }\n        }\n      },\n      {\n        \"id\": \"decision_text\",\n        \"component\": {\n          \"Text\": {\n            \"text\": {\n              \"literalString\": \"SIU REFERRAL\"\n            },\n            \"usageHint\": \"body\"\n          }\n        }\n      },\n      {\n        \"id\": \"reason1_text\",\n        \"component\": {\n          \"Text\": {\n            \"text\": {\n              \"literalString\": \"Wind peril not corroborated: No Thunderstorm Wind, High Wind or Tornado report within 10 miles (0 reports within 25 miles).\"\n            },\n            \"usageHint\": \"body\"\n          }\n        }\n      },\n      {\n        \"id\": \"reason2_text\",\n        \"component\": {\n          \"Text\": {\n            \"text\": {\n              \"literalString\": \"Red flag: Policy effective date (2024-05-17) is 3 days before loss (2024-05-20) and after catastrophe declaration (2024-05-16), as per Section 4 Post-Declaration Policies in cat_event_sop.md.\"\n            },\n            \"usageHint\": \"body\"\n          }\n        }\n      },\n      {\n        \"id\": \"payout_text\",\n        \"component\": {\n          \"Text\": {\n            \"text\": {\n              \"literalString\": \"Net payout $13,600\"\n            },\n            \"usageHint\": \"body\"\n          }\n        }\n      }\n    ]\n  }\n</a2ui-json>"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_4_CLM-1015",
+      "agent_data": {
+        "turns": [
+          {
+            "events": [
+              {
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "name": "get_claim"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "get_policy"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "check_weather_at_loss"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "find_storm_reports"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "search_policy_docs"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "calculate_payout"
+                      }
+                    },
+                    {
+                      "text": "<a2ui-json>\n  {\n    \"surfaceId\": \"claim_card_CLM-1015\",\n    \"components\": [\n      {\n        \"id\": \"card_root\",\n        \"component\": {\n          \"card\": {\n            \"child\": \"claim_column\"\n          }\n        }\n      },\n      {\n        \"id\": \"claim_column\",\n        \"component\": {\n          \"column\": {\n            \"children\": {\n              \"explicitList\": [\n                \"claim_id_insured\",\n                \"decision_text\",\n                \"reason1\",\n                \"reason2\",\n                \"net_payout_text\"\n              ]\n            }\n          }\n        }\n      },\n      {\n        \"id\": \"claim_id_insured\",\n        \"component\": {\n          \"text\": {\n            \"text\": {\n              \"literalString\": \"CLM-1015 | Walter Simmons\"\n            },\n            \"usageHint\": \"h2\"\n          }\n        }\n      },\n      {\n        \"id\": \"decision_text\",\n        \"component\": {\n          \"text\": {\n            \"text\": {\n              \"literalString\": \"INSPECT\"\n            },\n            \"usageHint\": \"body\"\n          }\n        }\n      },\n      {\n        \"id\": \"reason1\",\n        \"component\": {\n          \"text\": {\n            \"text\": {\n              \"literalString\": \"Roof age exceeds 15 years (22 years) requiring mandatory inspection based on 'Section 7 Roof Age' in claims_handling_guidelines.md.\"\n            },\n            \"usageHint\": \"body\"\n          }\n        }\n      },\n      {\n        \"id\": \"reason2\",\n        \"component\": {\n          \"text\": {\n            \"text\": {\n              \"literalString\": \"Wind peril corroborated by Thunderstorm Wind report at JERSEY VILLAGE (6.7 miles from loss location).\"\n            },\n            \"usageHint\": \"body\"\n          }\n        }\n      },\n      {\n        \"id\": \"net_payout_text\",\n        \"component\": {\n          \"text\": {\n            \"text\": {\n              \"literalString\": \"Net payout $5400\"\n            },\n            \"usageHint\": \"body\"\n          }\n        }\n      }\n    ]\n  }\n</a2ui-json>"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_5_CLM-1005",
+      "agent_data": {
+        "turns": [
+          {
+            "events": [
+              {
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "name": "get_claim"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "get_policy"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "check_weather_at_loss"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "find_storm_reports"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "search_policy_docs"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "calculate_payout"
+                      }
+                    },
+                    {
+                      "text": "<a2ui-json>\n{\n  \"surfaceId\": \"claim_card_CLM-1005\",\n  \"components\": [\n    {\n      \"id\": \"card_root\",\n      \"component\": {\n        \"card\": {\n          \"child\": \"column_main\"\n        }\n      }\n    },\n    {\n      \"id\": \"column_main\",\n      \"component\": {\n        \"column\": {\n          \"children\": {\n            \"explicitList\": [\n              \"text_claim_header\",\n              \"text_decision\",\n              \"text_reason1\",\n              \"text_reason2\",\n              \"text_reason3\",\n              \"text_net_payout\"\n            ]\n          }\n        }\n      }\n    },\n    {\n      \"id\": \"text_claim_header\",\n      \"component\": {\n        \"text\": {\n          \"text\": {\n            \"literalString\": \"CLM-1005 | Robert Hale\"\n          },\n          \"usageHint\": \"h2\"\n        }\n      }\n    },\n    {\n      \"id\": \"text_decision\",\n      \"component\": {\n        \"text\": {\n          \"text\": {\n            \"literalString\": \"INSPECT\"\n          },\n          \"usageHint\": \"body\"\n        }\n      }\n    },\n    {\n      \"id\": \"text_reason1\",\n      \"component\": {\n        \"text\": {\n          \"text\": {\n            \"literalString\": \"Net payout ($44,300) exceeds adjuster's authority limit ($25,000). (Claims Handling Guidelines, Section 3 Authority Limits)\"\n          },\n          \"usageHint\": \"body\"\n        }\n      }\n    },\n    {\n      \"id\": \"text_reason2\",\n      \"component\": {\n        \"text\": {\n          \"text\": {\n            \"literalString\": \"Peril (wind) is corroborated by a Tornado report 1.2 miles from the loss location. (NOAA Storm Events report for Tornado, ID 1192624)\"\n          },\n          \"usageHint\": \"body\"\n        }\n      }\n    },\n    {\n      \"id\": \"text_reason3\",\n      \"component\": {\n        \"text\": {\n          \"text\": {\n            \"literalString\": \"No red flags found.\"\n          },\n          \"usageHint\": \"body\"\n        }\n      }\n    },\n    {\n      \"id\": \"text_net_payout\",\n      \"component\": {\n        \"text\": {\n          \"text\": {\n            \"literalString\": \"Net payout $44,300\"\n          },\n          \"usageHint\": \"body\"\n        }\n      }\n    }\n  ]\n}\n</a2ui-json>"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_6_CLM-2009",
+      "agent_data": {
+        "turns": [
+          {
+            "events": [
+              {
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "name": "get_claim"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "get_policy"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "check_weather_at_loss"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "find_storm_reports"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "search_policy_docs"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "calculate_payout"
+                      }
+                    },
+                    {
+                      "text": "<a2ui-json>\n  {\n    \"surfaceId\": \"claim_card_CLM-2009\",\n    \"components\": [\n      {\n        \"id\": \"card_root\",\n        \"component\": {\n          \"Card\": {\n            \"child\": \"column_main\"\n          }\n        }\n      },\n      {\n        \"id\": \"column_main\",\n        \"component\": {\n          \"Column\": {\n            \"children\": {\n              \"explicitList\": [\n                \"text_claim_info\",\n                \"text_decision\",\n                \"text_reason1\",\n                \"text_reason2\",\n                \"text_net_payout\"\n              ]\n            }\n          }\n        }\n      },\n      {\n        \"id\": \"text_claim_info\",\n        \"component\": {\n          \"Text\": {\n            \"text\": {\n              \"literalString\": \"CLM-2009 | Kevin Tran\"\n            },\n            \"usageHint\": \"h2\"\n          }\n        }\n      },\n      {\n        \"id\": \"text_decision\",\n        \"component\": {\n          \"Text\": {\n            \"text\": {\n              \"literalString\": \"INSPECT\"\n            },\n            \"usageHint\": \"body\"\n          }\n        }\n      },\n      {\n        \"id\": \"text_reason1\",\n        \"component\": {\n          \"Text\": {\n            \"text\": {\n              \"literalString\": \"Hail peril not corroborated: no hail report within 25 miles of 3300 block Hwy 6 S Houston area (nearest 86.4 mi).\"\n            },\n            \"usageHint\": \"body\"\n          }\n        }\n      },\n      {\n        \"id\": \"text_reason2\",\n        \"component\": {\n          \"Text\": {\n            \"text\": {\n              \"literalString\": \"Peril not corroborated without red flags (claims_handling_guidelines.md, Section 6).\"\n            },\n            \"usageHint\": \"body\"\n          }\n        }\n      },\n      {\n        \"id\": \"text_net_payout\",\n        \"component\": {\n          \"Text\": {\n            \"text\": {\n              \"literalString\": \"Net payout $3800\"\n            },\n            \"usageHint\": \"body\"\n          }\n        }\n      }\n    ]\n  }\n</a2ui-json>"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_7_CLM-1003_deductible",
+      "agent_data": {
+        "turns": [
+          {
+            "events": [
+              {
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "name": "get_claim"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "get_policy"
+                      }
+                    },
+                    {
+                      "text": "The wind and hail deductible on policy POL-1003 for CLM-1003 is 1% of the Coverage A limit. The Coverage A limit is $280,000, so the deductible is $2,800."
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "case_8_CLM-1001",
+      "agent_data": {
+        "turns": [
+          {
+            "events": [
+              {
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "name": "get_claim"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "get_policy"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "check_weather_at_loss"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "find_storm_reports"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "search_policy_docs"
+                      }
+                    },
+                    {
+                      "function_call": {
+                        "name": "calculate_payout"
+                      }
+                    },
+                    {
+                      "text": "<a2ui-json>\n{\n  \"surfaceId\": \"claim_card_CLM-1001\",\n  \"components\": [\n    {\n      \"id\": \"card_root\",\n      \"component\": {\n        \"Card\": {\n          \"child\": \"column_root\"\n        }\n      }\n    },\n    {\n      \"id\": \"column_root\",\n      \"component\": {\n        \"Column\": {\n          \"children\": {\n            \"explicitList\": [\n              \"text_claim_id_insured\",\n              \"text_decision\",\n              \"text_reason1\",\n              \"text_reason2\",\n              \"text_reason3\",\n              \"text_net_payout\"\n            ]\n          }\n        }\n      }\n    },\n    {\n      \"id\": \"text_claim_id_insured\",\n      \"component\": {\n        \"Text\": {\n          \"text\": {\n            \"literalString\": \"CLM-1001 | Marcus Reed\"\n          },\n          \"usageHint\": \"h2\"\n        }\n      }\n    },\n    {\n      \"id\": \"text_decision\",\n      \"component\": {\n        \"Text\": {\n          \"text\": {\n            \"literalString\": \"FAST_TRACK\"\n          },\n          \"usageHint\": \"body\"\n        }\n      }\n    },\n    {\n      \"id\": \"text_reason1\",\n      \"component\": {\n        \"Text\": {\n          \"text\": {\n            \"literalString\": \"Wind peril corroborated by Thunderstorm Wind report 1 mile away.\"\n          },\n          \"usageHint\": \"body\"\n        }\n      }\n    },\n    {\n      \"id\": \"text_reason2\",\n      \"component\": {\n        \"Text\": {\n          \"text\": {\n            \"literalString\": \"No red flags found.\"\n          },\n          \"usageHint\": \"body\"\n        }\n      }\n    },\n    {\n      \"id\": \"text_reason3\",\n      \"component\": {\n        \"Text\": {\n          \"text\": {\n            \"literalString\": \"Net payout $11,400 is within authority limits.\"\n          },\n          \"usageHint\": \"body\"\n        }\n      }\n    },\n    {\n      \"id\": \"text_net_payout\",\n      \"component\": {\n        \"Text\": {\n          \"text\": {\n            \"literalString\": \"Net payout $11,400\"\n          },\n          \"usageHint\": \"body\"\n        }\n      }\n    }\n  ]\n}\n</a2ui-json>"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
